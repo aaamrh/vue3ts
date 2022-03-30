@@ -9,11 +9,24 @@
     <li v-for="number in numbers" :key="number"><h1>{{number}}</h1></li>
   </ul>
   <h1>{{person.name}}</h1>
+
+
+  <p> x: {{pos.x}}, y: {{pos.y}}</p>
   <button @click="increase">👍 + 1</button>
+
+  <h1 v-if="loading">loading ...</h1>
+  <img v-if='loaded' :src="result.message" />
+
+  <IModal />
 </template>
 
 <script lang="ts">
-import {defineComponent, ref, computed, reactive, toRefs, onMounted, onUpdated, onRenderTracked, onRenderTriggered, watch} from 'vue';
+import {defineComponent, ref, computed, reactive, toRefs, onMounted, onUpdated, onRenderTracked, onRenderTriggered, watch, onUnmounted} from 'vue';
+import IModal from './components/IModal.vue';
+import useMousePosition from './hooks/useMousePosition';
+import useURLLoader from './hooks/useURLLoader';
+
+
 interface IDataProps {
   count: number;
   double: number;
@@ -21,8 +34,14 @@ interface IDataProps {
   numbers: number[];
   person: { name ?: string }
 }
+
+interface IDogRes {
+  message: string;
+  status: string;
+}
 // Vue2写法
 export default defineComponent({
+  components: { IModal },
   name: 'App',
   setup(){
     // 无法访问THIS,
@@ -64,12 +83,21 @@ export default defineComponent({
       document.title = watchCount.value + ' ' + data.count;
     })
     setTimeout(()=>{ watchCount.value ++ }, 2000)
+
+
+    // 
+    const pos = useMousePosition();
+
+    //
+    const {loading, loaded, error, result} = useURLLoader<IDogRes>('https://dog.ceo/api/breeds/image/random');
     
     return {
       // count,
       // increase,
       // double
-      ...refData
+      ...refData,
+      pos,
+      loading, loaded, error, result
     }
   },  
   data(){
