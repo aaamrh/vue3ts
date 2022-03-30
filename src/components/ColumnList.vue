@@ -6,10 +6,10 @@
       <p>{{ column.description }}</p>
       <a href="#">进入专栏</a>
     </div> -->
-    <div class="col-4" v-for="column in columnList" :key="column.id">
+    <div class="col-4 mb-4" v-for="column in columnList" :key="column.id">
       <div class="card h-100 shadow-sm" style="width: 18rem;" >
         <div class="card-body text-center overflow-hidden">
-          <img :src="column.avatar" :alt="column.title">
+          <img :src="column.avatar" :alt="column.title" class="rounded-circle border border-light my-3 w-50">
           <h5 class="card-title">{{ column.title }}</h5>
           <p class="card-text text-left">{{ column.description }}</p>
           <a href="#" class="btn btn-outline-primary">进入专栏</a>
