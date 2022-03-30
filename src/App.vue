@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, ref, computed, reactive, toRefs, onMounted, onUpdated, onRenderTracked, onRenderTriggered} from 'vue';
+import {defineComponent, ref, computed, reactive, toRefs, onMounted, onUpdated, onRenderTracked, onRenderTriggered, watch} from 'vue';
 interface IDataProps {
   count: number;
   double: number;
@@ -38,7 +38,6 @@ export default defineComponent({
       numbers: [0, 1, 2],
       person: {}
     })
-
     data.numbers[0] = 10;
     data.person.name = 'Ryan';
 
@@ -57,6 +56,15 @@ export default defineComponent({
     onRenderTriggered((event)=>{
       console.log(event)
     })
+
+
+    // watch
+    const watchCount = ref(0);
+    watch([watchCount, ()=>{data.count}], (newValue, oldValue)=>{
+      document.title = watchCount.value + ' ' + data.count;
+    })
+    setTimeout(()=>{ watchCount.value ++ }, 2000)
+    
     return {
       // count,
       // increase,
