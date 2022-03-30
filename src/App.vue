@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, ref, computed, reactive, toRefs} from 'vue';
+import {defineComponent, ref, computed, reactive, toRefs, onMounted, onUpdated, onRenderTracked, onRenderTriggered} from 'vue';
 interface IDataProps {
   count: number;
   double: number;
@@ -43,6 +43,20 @@ export default defineComponent({
     data.person.name = 'Ryan';
 
     const refData = toRefs(data) // 使用toRefs解决丧失响应性的问题
+
+    onMounted(()=>{
+      console.log('mounted')
+    })
+
+    onUpdated(()=>{
+      console.log('updated')
+    })
+
+    // 新增 用来调试
+    // onRenderTracked()
+    onRenderTriggered((event)=>{
+      console.log(event)
+    })
     return {
       // count,
       // increase,
