@@ -17,7 +17,10 @@
   <h1 v-if="loading">loading ...</h1>
   <img v-if='loaded' :src="result.message" />
 
-  <IModal />
+  <div>
+    <IModal :isOpen="modalIsOpen" @close-modal="onModalClose"></IModal>
+    <button @click="openModal">👍 打开Modal</button>
+  </div>
 </template>
 
 <script lang="ts">
@@ -90,6 +93,15 @@ export default defineComponent({
 
     //
     const {loading, loaded, error, result} = useURLLoader<IDogRes>('https://dog.ceo/api/breeds/image/random');
+
+
+    const modalIsOpen = ref(false);
+    const openModal = () => {
+      modalIsOpen.value = true;
+    }
+    const onModalClose = () => {
+      modalIsOpen.value = false
+    }
     
     return {
       // count,
@@ -97,7 +109,8 @@ export default defineComponent({
       // double
       ...refData,
       pos,
-      loading, loaded, error, result
+      loading, loaded, error, result,
+      modalIsOpen, openModal, onModalClose
     }
   },  
   data(){

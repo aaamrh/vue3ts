@@ -1,7 +1,8 @@
 <template>
   <teleport to="#modal">
-    <div id="center">
-      <h2>this is a modal</h2>
+    <div id="center" v-if="isOpen">
+      <h2><slot>This is a modal</slot> </h2>
+      <button @click="buttonClick">close ❌</button>
     </div>
   </teleport>
 </template>
@@ -10,7 +11,20 @@
 import { defineComponent } from "@vue/runtime-core";
 
 export default defineComponent({
-
+  props:{
+    isOpen: Boolean,
+  },  
+  emits:{ // 更明确的显示组件的自定义事件有哪些
+    'close-modal': null
+  },
+  setup(props, context){
+    const buttonClick = () => {
+      context.emit('close-modal');
+    }
+    return {
+      buttonClick
+    }
+  }
 })
 </script>
 
