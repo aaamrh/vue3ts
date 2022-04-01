@@ -23,24 +23,33 @@
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>  -->
 
-  <div class="mb-3">
-    <label class="form-label">邮箱</label>
-    <validate-input 
-      :rules="emailRules"
-      v-model="emailVal"
-      type="text"
-      placeholder = "请输入邮箱"
-    ></validate-input>  
-  </div>
+  <validate-form @form-submit="onFormSubmit">
+    <div class="mb-3">
+      <label class="form-label">邮箱</label>
+      <validate-input 
+        :rules="emailRules"
+        v-model="emailVal"
+        type="text" 
+        placeholder = "请输入邮箱"
+      ></validate-input>  
+    </div>
 
-  <div class="mb-3">
-    <label class="form-label">密码</label>
-    <validate-input 
-      v-model="passwordVal"
-      type="password"
-      placeholder = "请输入密码"
-    ></validate-input>  
-  </div>
+    <div class="mb-3">
+      <label class="form-label">密码</label>
+      <validate-input 
+        :rules="emailRules"
+        v-model="passwordVal"
+        type="password"
+        placeholder = "请输入密码"
+      ></validate-input>  
+    </div>
+    
+    <template #submit>
+      <button type="submit" class="btn btn-danger">提交</button>
+    </template>
+  </validate-form>
+
+
   <column-list :list="list"></column-list>
 </div>
 </template>
@@ -51,6 +60,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import ColumnList, { IColumnProps } from './components/ColumnList.vue';
 import GlobalHeader, { IUserProps } from './components/GlobalHeader.vue';
 import ValidateInput from './components/ValidateInput.vue';
+import ValidateForm from './components/ValidateForm.vue';
 
 const currentUser: IUserProps = {
   isLogin: true,
@@ -89,28 +99,21 @@ export default defineComponent({
   components: {
     ColumnList,
     GlobalHeader,
-    ValidateInput
+    ValidateInput,
+    ValidateForm
   },
   setup(){
-    // const emailRef = reactive({
-    //   val: '',
-    //   error: false,
-    //   message: ''
-    // })
-
+    const inputRef = ref<any>();
     const emailVal = ref('Ryan'); // GET 获取到input组件的值
     const emailRules = [
       { type: 'required', message: "不能为空" }
     ]
 
-    const passwordVal = ref('')
+    const passwordVal = ref('');
 
-    // const validateEmail = () => {
-    //   if (emailRef.val.trim() === '') {
-    //     emailRef.message = "不能为空";
-    //     emailRef.error = true;
-    //   }
-    // }
+    const onFormSubmit = (result: boolean) => {
+      console.log("form submit", result)
+    };
 
     return {
       list: testData,
@@ -119,7 +122,8 @@ export default defineComponent({
       // emailRef,
       // validateEmail,
       emailRules,
-      passwordVal
+      passwordVal,
+      onFormSubmit
     }
   }
 })

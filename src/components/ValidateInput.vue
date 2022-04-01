@@ -1,5 +1,5 @@
 <template>
-  <div class="validate-input-container pb-3">
+  <div class="validate-input-container">
     <input 
       v-bind="$attrs"
       class="form-control"
@@ -14,7 +14,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, reactive } from 'vue';
+import { defineComponent, onMounted, PropType, reactive } from 'vue';
+import { emitter } from './ValidateForm.vue'; // GET 发送数据
 
 interface IRuleProp {
   type: 'required' | 'email',
@@ -37,6 +38,10 @@ export default defineComponent({
       message: ''
     })
     
+    onMounted(()=>{
+      emitter.emit("form-item-created", validateInput)
+    })
+
     const updateValue = (e: KeyboardEvent) => {
       const targetValue = (e.target as HTMLInputElement).value;
       inputRef.val = targetValue;
