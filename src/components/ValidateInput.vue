@@ -37,9 +37,14 @@ export default defineComponent({
       error: false,
       message: ''
     })
+
+    const clearInputs = () => {
+      inputRef.val = ''
+    }
     
     onMounted(()=>{
       emitter.emit("form-item-created", validateInput)
+      emitter.emit("form-input-clear", clearInputs)
     })
 
     const updateValue = (e: KeyboardEvent) => {
