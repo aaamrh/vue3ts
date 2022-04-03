@@ -56,10 +56,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 import "bootstrap/dist/css/bootstrap.min.css";
 import ColumnList, { IColumnProps } from '../components/ColumnList.vue';
-import GlobalHeader, { IUserProps } from '../components/GlobalHeader.vue';
 import ValidateInput from '../components/ValidateInput.vue';
 import ValidateForm from '../components/ValidateForm.vue';
 
@@ -95,7 +94,6 @@ export default defineComponent({
   name: 'App',
   components: {
     ColumnList,
-    GlobalHeader,
     ValidateInput,
     ValidateForm
   },
